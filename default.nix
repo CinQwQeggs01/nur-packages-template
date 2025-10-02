@@ -14,7 +14,7 @@
   modules = import ./modules; # NixOS modules
   overlays = import ./overlays; # nixpkgs overlays
 
-  AlgerMusicPlayer = pkgs.callPackage ./pkgs/AlgerMusicPlayer { };
+  algermusicplayer = pkgs.callPackage ./pkgs/algermusicplayer { };
   # some-qt5-package = pkgs.libsForQt5.callPackage ./pkgs/some-qt5-package { };
   # ...
 }
