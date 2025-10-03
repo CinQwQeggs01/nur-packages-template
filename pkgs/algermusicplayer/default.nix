@@ -17,10 +17,13 @@ appimageTools.wrapType2 {
     qt5.qtbase
   ];
 
-  meta = with lib; {
-    description = "A powerful cross-platform music player based on Electron";
+  meta = {
+    description = "Third-party music player for Netease Cloud Music";
     homepage = "https://github.com/algerkong/AlgerMusicPlayer";
-    license = licenses.mit;
-    platforms = [ "x86_64-linux" ];
+    license = lib.licenses.asl20;
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
+    maintainers = with lib.maintainers; [ cinqwqeggs ]; 
+    mainProgram = "algermusicplayer";
+    platforms = builtins.attrNames algerSrc;
   };
 } 
