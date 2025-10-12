@@ -31,7 +31,8 @@ buildGoModule rec {
       {
         type = "url";
         value = "https://github.com/Mrs4s/go-cqhttp/archive/v${version}.tar.gz";
-        hash = src.hash; 
+        hash = src.hash;
+        isSource = true; 
       }
     ];
     maintainers = with lib.maintainers; [ "cinqwqeggs" ];
