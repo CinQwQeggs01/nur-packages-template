@@ -35,7 +35,7 @@ buildGoModule rec {
         isSource = true; 
       }
     ];
-    maintainers = with lib.maintainers; [ cinqwqeggs ];
+    maintainers = with lib.maintainers; [ "cinqwqeggs" ];
     mainProgram = "go-cqhttp";
     license = licenses.agpl3Only; 
     platforms = platforms.unix; 
