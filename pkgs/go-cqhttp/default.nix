@@ -27,10 +27,8 @@ buildGoModule rec {
   meta = with lib; {
     description = "基于 Mirai/MiraiGo 的 OneBot Golang 原生实现";
     homepage = "https://github.com/Mrs4s/go-cqhttp";
-    sourceProvenance = lib.sourceByRegex [
-      (lib.fetchers.fetchFromGitHub.getSourceName { inherit version; owner = "Mrs4s"; repo = "go-cqhttp"; rev = "v${version}"; })
-    ] src;
-    maintainers = with lib.maintainers; [ "cinqwqeggs" ];
+    sourceProvenance = getSrcs [ src ]; 
+    maintainers = with lib.maintainers; [ cinqwqeggs ];
     mainProgram = "go-cqhttp";
     license = licenses.agpl3Only; 
     platforms = platforms.unix; 
