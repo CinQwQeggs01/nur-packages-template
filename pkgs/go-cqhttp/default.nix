@@ -1,5 +1,5 @@
 # default.nix
-{ lib, buildGoModule, fetchFromGitHub }:
+{ pkgs, lib, buildGoModule, fetchFromGitHub }:
 
 
 let version = "1.2.0"; in 
@@ -27,7 +27,7 @@ buildGoModule rec {
   meta = with lib; {
     description = "基于 Mirai/MiraiGo 的 OneBot Golang 原生实现";
     homepage = "https://github.com/Mrs4s/go-cqhttp";
-    sourceProvenance = lib.getSources [ src ];  
+    sourceProvenance = pkgs.lib.getSources [ src ];  
     maintainers = with lib.maintainers; [ cinqwqeggs ];
     mainProgram = "go-cqhttp";
     license = licenses.agpl3Only; 
