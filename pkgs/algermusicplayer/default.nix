@@ -51,7 +51,7 @@ appimageTools.wrapType2 rec {
     homepage = "https://github.com/algerkong/AlgerMusicPlayer";
     license = lib.licenses.asl20;
     sourceProvenance = with lib.sourceTypes; [ lib.sourceTypes.binaryNativeCode ];
-    maintainers = with lib.maintainers; [ cinqwqeggs ];
+    maintainers = with lib.maintainers; [ "cinqwqeggs" ];
     mainProgram = "algermusicplayer";
     platforms = builtins.attrNames algerSrc;
   };
