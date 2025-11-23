@@ -87,18 +87,17 @@ stdenv.mkDerivation rec {
   ];
 
   buildInputs = libraries;
-
   dontWrapQtApps = true;
 
   unpackPhase = ''
     runHook preUnpack
     dpkg -x $src .
-    mv opt/apps/com.alibabainc.dingtalk/files/version version
-    mv opt/apps/com.alibabainc.dingtalk/files/*-Release.* release
-    rm -f release/{*.a,*.la,*.prl,dingtalk_crash_report,dingtalk_updater,libapr*,libcrypto.so.*,libcurl.so.*}
-    rm -f release/{libdouble-conversion.so.*,libEGL*,libgbm.*,libGLES*}
-    rm -rf release/{engines-1_1,imageformats,platform*,swiftshader,xcbglintegrations}
-    rm -rf release/Resources/{i18n/tool/*.exe,qss/mac}
+    mv opt/apps/com.alibainc.dingtalk/files/version version || true
+    mv opt/apps/com.alibainc.dingtalk/files/*-Release.* release || true
+    rm -f release/{*.a,*.la,*.prl,dingtalk_crash_report,dingtalk_updater,libapr*,libcrypto.so.*,libcurl.so.*} || true
+    rm -f release/{libdouble-conversion.so.*,libEGL*,libgbm.*,libGLES*} || true
+    rm -rf release/{engines-1_1,imageformats,platform*,swiftshader,xcbglintegrations} || true
+    rm -rf release/Resources/{i18n/tool/*.exe,qss/mac} || true
     runHook postUnpack
   '';
 
@@ -106,25 +105,21 @@ stdenv.mkDerivation rec {
     runHook preInstall
     install -Dm644 version $out/version
     mv release $out/lib
-
     mkdir -p $out/bin
     cat > $out/bin/dingtalk <<'EOF'
 #!/usr/bin/env bash
 export XDG_DATA_DIRS="$XDG_DATA_DIRS:/run/current-system/sw/share"
-
-if [[ "${XMODIFIERS}" =~ fcitx ]]; then
+if [[ "$XMODIFIERS" =~ fcitx ]]; then
   export QT_IM_MODULE=fcitx
   export GTK_IM_MODULE=fcitx
-elif [[ "${XMODIFIERS}" =~ ibus ]]; then
+elif [[ "$XMODIFIERS" =~ ibus ]]; then
   export QT_IM_MODULE=ibus
   export GTK_IM_MODULE=ibus
   export IBUS_USE_PORTAL=1
 fi
-
-exec $out/lib/com.alibabainc.dingtalk
+exec "${out}/lib/com.alibabainc.dingtalk"
 EOF
     chmod +x $out/bin/dingtalk
-
     wrapProgram $out/bin/dingtalk \
       "''${qtWrapperArgs[@]}" \
       --chdir $out/lib \
@@ -134,8 +129,7 @@ EOF
       --prefix LD_PRELOAD : "$out/lib/libcef.so" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath libraries}" \
       --set XDG_DATA_DIRS "/run/current-system/sw/share"
-
-    install -Dm644 $out/lib/Resources/image/common/about/logo.png $out/share/pixmaps/dingtalk.png
+    install -Dm644 $out/lib/Resources/image/common/about/logo.png $out/share/pixmaps/dingtalk.png || true
     runHook postInstall
   '';
 
@@ -166,3 +160,4 @@ EOF
     mainProgram = "dingtalk";
   };
 }
+
