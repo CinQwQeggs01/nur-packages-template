@@ -117,7 +117,7 @@ elif [[ "\$XMODIFIERS" =~ ibus ]]; then
   export GTK_IM_MODULE=ibus
   export IBUS_USE_PORTAL=1
 fi
-exec "${out}/lib/com.alibabainc.dingtalk"
+exec "$out/lib/com.alibabainc.dingtalk"
 EOF
     chmod +x $out/bin/dingtalk
     wrapProgram $out/bin/dingtalk \
@@ -160,4 +160,3 @@ EOF
     mainProgram = "dingtalk";
   };
 }
-
