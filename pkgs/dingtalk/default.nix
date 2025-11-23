@@ -1,5 +1,5 @@
-{ sources,
-  stdenv,
+{ stdenv,
+  fetchurl,
   autoPatchelfHook,
   makeWrapper,
   lib,
@@ -74,9 +74,13 @@ let
 in
 
 stdenv.mkDerivation rec {
-  pname = sources.dingtalk.pname;
-  version = builtins.elemAt (lib.splitString "_" sources.dingtalk.version) 1;
-  src = sources.dingtalk;
+  pname = "dingtalk";
+  version = "7.6.5";
+  
+  src = fetchurl {
+    url = "https://dtapp-pub.dingtalk.com/dingtalk-desktop/xc_dingtalk_update/linux_deb/Release/com.alibabainc.dingtalk_${version}_amd64.deb";
+    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+  };
 
   nativeBuildInputs = [
     autoPatchelfHook
