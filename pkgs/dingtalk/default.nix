@@ -6,7 +6,6 @@
   makeDesktopItem,
   copyDesktopItems,
   dpkg,
-  # DingTalk dependencies
   alsa-lib,
   apr,
   aprutil,
@@ -96,7 +95,6 @@ stdenv.mkDerivation rec {
     dpkg -x $src .
     mv opt/apps/com.alibabainc.dingtalk/files/version version
     mv opt/apps/com.alibabainc.dingtalk/files/*-Release.* release
-    # Cleanup unnecessary libs, 保留 glib/gtk schema
     rm -f release/{*.a,*.la,*.prl,dingtalk_crash_report,dingtalk_updater,libapr*,libcrypto.so.*,libcurl.so.*}
     rm -f release/{libdouble-conversion.so.*,libEGL*,libgbm.*,libGLES*}
     rm -rf release/{engines-1_1,imageformats,platform*,swiftshader,xcbglintegrations}
@@ -110,18 +108,19 @@ stdenv.mkDerivation rec {
     mv release $out/lib
 
     mkdir -p $out/bin
-    cat > $out/bin/dingtalk <<EOF
+    cat > $out/bin/dingtalk <<'EOF'
 #!/usr/bin/env bash
-# 设置 NixOS GLib schema 路径
-export XDG_DATA_DIRS="\$XDG_DATA_DIRS:/run/current-system/sw/share"
-if [[ "\${XMODIFIERS}" =~ fcitx ]]; then
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:/run/current-system/sw/share"
+
+if [[ "${XMODIFIERS}" =~ fcitx ]]; then
   export QT_IM_MODULE=fcitx
   export GTK_IM_MODULE=fcitx
-elif [[ "\${XMODIFIERS}" =~ ibus ]]; then
+elif [[ "${XMODIFIERS}" =~ ibus ]]; then
   export QT_IM_MODULE=ibus
   export GTK_IM_MODULE=ibus
   export IBUS_USE_PORTAL=1
 fi
+
 exec $out/lib/com.alibabainc.dingtalk
 EOF
     chmod +x $out/bin/dingtalk
