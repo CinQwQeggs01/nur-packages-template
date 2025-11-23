@@ -106,13 +106,13 @@ stdenv.mkDerivation rec {
     install -Dm644 version $out/version
     mv release $out/lib
     mkdir -p $out/bin
-    cat > $out/bin/dingtalk <<'EOF'
+    cat > $out/bin/dingtalk <<EOF
 #!/usr/bin/env bash
-export XDG_DATA_DIRS="$XDG_DATA_DIRS:/run/current-system/sw/share"
-if [[ "$XMODIFIERS" =~ fcitx ]]; then
+export XDG_DATA_DIRS="\$XDG_DATA_DIRS:/run/current-system/sw/share"
+if [[ "\$XMODIFIERS" =~ fcitx ]]; then
   export QT_IM_MODULE=fcitx
   export GTK_IM_MODULE=fcitx
-elif [[ "$XMODIFIERS" =~ ibus ]]; then
+elif [[ "\$XMODIFIERS" =~ ibus ]]; then
   export QT_IM_MODULE=ibus
   export GTK_IM_MODULE=ibus
   export IBUS_USE_PORTAL=1
